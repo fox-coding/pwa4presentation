@@ -1,30 +1,40 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <menu :class="`${showMenu ? 'translate-x-[0]' : 'translate-x-[-405px]'}`" class="transition-transform delay-150 menu-element w-84 h-full bg-zinc-200 shadow-md p-4 fixed z-10">
+    <nav class="text-center">
+    </nav>
+    <Upload />
+  </menu>
+  <div class="content w-screen h-screen text-center p-10 relative">
+      <router-view/>
+  </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+// @ is an alias to /src
+import Upload from '@/components/Upload.vue'
 
-nav {
-  padding: 30px;
-}
+export default {
+  components: {
+    Upload
+  },
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+  data(){
+    return{
+      showMenu: false
+    }
+  },
 
-nav a.router-link-exact-active {
-  color: #42b983;
+  created: function () {
+    document.addEventListener('mousemove',(e)=>{
+      var x = e.clientX
+      if(x < 20){
+        this.showMenu = true
+      }else{
+        if(!e.target.classList.contains('menu-element')){
+          this.showMenu = false
+        }
+      }
+    })
+  },
 }
-</style>
+</script>
